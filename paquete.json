@@ -1,0 +1,18 @@
+{
+    "name": "crud-votaciones",
+    "version" : "1.0.0",
+    "descripcion" : "Crud + Votaciones",
+    "main" : "server.js",
+    "scripts" : {
+        "star" : "node server.js",
+        "dev" : "nodemon"
+    },
+    "dependencias" : {
+        "express" : "^4.18.2",
+        "ejs" : "^3.1.9"
+    },
+    "devDependencies" : {
+        "nodemon" : "^2.0.22"
+    }
+    
+}
