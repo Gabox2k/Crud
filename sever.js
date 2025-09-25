@@ -1,6 +1,6 @@
 const express = require('express')
 const path = require('path')
-const articuloRoutes = require('./routes/articuloRoutes')
+const materiasRoutes = require('./routes/articuloRoutes')
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
@@ -12,7 +12,7 @@ const PORT = 3000
 app.set('view engine' , 'ejs')
 app.set ('views' , path.join(__dirname,'views'))
 
-app.use('/articulos' , articuloRoutes)
+app.use('/articulos' , materiasRoutes)
 app.listen(PORT, () =>{
     console.log(`Servidor corriendo en http://localhost:${PORT}`)
 })
