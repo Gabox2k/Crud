@@ -1,0 +1,28 @@
+<%- include('../layout') %>
+
+<a href="/materias/nuevo" class="btn btn-success mb-3">Nueva Materia</a>
+
+<table class="table table-bordered table-striped">
+  <thead>
+    <tr class="text-center">
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Votos</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% materias.forEach(m => { %>
+      <tr>
+        <td><%= m.id %></td>
+        <td><%= m.nombre %></td>
+        <td><%= m.votos %></td>
+        <td class="text-center">
+          <a href="/materias/editar/<%= m.id %>" class="btn btn-primary btn-sm">Editar</a>
+          <a href="/materias/eliminar/<%= m.id %>" class="btn btn-danger btn-sm">Eliminar</a>
+          <a href="/materias/votar/<%= m.id %>" class="btn btn-warning btn-sm">Votar</a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

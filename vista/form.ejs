@@ -1,0 +1,13 @@
+<%- include('partials/header') %>
+
+<form method="POST" action="<%= materia ? '/materias/editar/' + materia.id : '/materias/nuevo' %>">
+  <div class="mb-3">
+    <label for="nombre" class="form-label">Nombre de la materia</label>
+    <input type="text" class="form-control" id="nombre" name="nombre" 
+      value="<%= materia ? materia.nombre : '' %>" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="/materias" class="btn btn-secondary">Cancelar</a>
+</form>
+
+<%- include('partials/footer') %>
