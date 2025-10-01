@@ -1,32 +1,45 @@
 const model = require('../modelo/materiaModel');
 
 exports.listar = (req, res) => {
-    const materias = model.getAll();
-    res.render ('index', {materias});
-}
+   model.getAll((err, materias) =>{
+        if (err) return res.status(500).send("Erro no se pudo obtener las materias");
+        res.render('index', { materias});
+   });
+};
 
-exports.getById = (id) => {
-    return model.getById(id)
+exports.getById = (id, callback) => {
+    model.getById(id, callback)
 }
 
 exports.crear = (req, res) => {
-    const nuevo = model.crear(req.body);
-    res.redirect('/')
+    const { nombre } = req.body;
+    model.crear(nombre, (err, nuevaMateria) => {
+        if (err) return res.status(500).send("No se pudo crear");
+        res.redirect('/materias');
+    });
 } 
 
 exports.editar = (req, res) =>{
-    const actualizado = model.actualizar(req.params.id, req.body);
-    if (!actualizado) return res.status(404).send('No se encontro');
-    res.redirect('/');
+    const { nombre } = req.body;
+    const id = req.params.id;
+    model.actualizar(id, nombre, (err)=>{
+        if (err) return res.status(500).send("No se pudo editar");
+        res.redirect('/materias');
+    })
 }
 
 exports.eliminar = (req, res) => {
-    model.eliminar(req.params.id);
-    res.redirect('/');
+    const id = req.params.id;
+    model.eliminar(id, (err) => {
+        if (err) return res.status(500).send("No se pudo eliminar");
+        res.redirect('/materias');
+    })
 }
 
 exports.votar = (req, res) =>{
-    const votado = model.votar (req.params.id);
-    if (!votado) return res.status(404).send('No se encontro');
-    res.redirect('/');
+    const id = req.params.id;
+    model.votar(id, (err) => {
+        if (err) return res.status(500).send("No se pudo crear");
+        res.redirect('/materias');
+    })
 }

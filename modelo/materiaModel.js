@@ -1,39 +1,50 @@
-let materias =[
-    {id :1, descripcion : "Fisica", votos: 0},
-    {id: 2, descripcion: "Ingles", votos:0}
-];
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('./materias.db');
 
-function getAll(){
-    return[...materias].sort((a,b) => b.votos - a.votos); 
+db.run(`CREATE TABLE IF NOT EXISTS materias (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nombre TEXT NOT NULL,
+    votos INTEGER DEFAULT 0
+)`);
+
+exports.getAll = (callback) => {
+   db.all('SELECT * FROM materias ORDER BY votos DESC', [], (err, rows) =>{
+    if (err) return callback(err);
+    callback(null, rows);
+   }); 
 }
 
-function getById (id){
-    return materias.find(m => m.id === Number(id));
-}
+exports.getById = (id, callback) => {
+    db.get('SELECT * FROM materias WHERE id = ?', [id], (err, row) =>{
+       if (err) return callback(err);
+        callback(null, row);
+    });
+};
 
-function crear(data){
-    const maxid = materias.length ? Math.max(...materias.map(a => a.id)) : 0;
-    const nuevo = {id : maxid + 1, nombre: data.nombre, votos: 0};
-    materias.push(nuevo);
-    return nuevo;
-}
+exports.crear = (nombre, callback) => {
+    db.run('INSERT INTO materias(nombre) VALUES(?)', [nombre], function(err){
+        if (err) return callback(err);
+        callback(null, {id: this.lastID, nombre, votos : 0});
+    });
+};
 
-function actualizar(id, data){
-    const idx = materias.findIndex(m => m.id === Number(id));
-    if (idx === -1) return null;
-    materias[idx] = { ...materias[idx], nombre: data.nombre};
-    return materias[idx];
-}
+exports.actualizar = (id, nombre , callback) =>{
+    db.run('UPDATE materias SET nombre = ? WHERE id = ?', [nombre, id], function(err){
+        if (err) return callback(err);
+        callback(null);
+    });
+};
 
-function eliminar(id){
-    materias = materias.filter(m => m.id !== Number(id));
-}
+exports.eliminar = (id, callback) => {
+    db.run ('DELETE FROM materias WHERE id = ?', [id], function(err){
+        if (err) return callback(err);
+        callback(null);
+    });
+};
 
-function votar(id){
-  const mat = getById(id);
-  if (!mat) return null;
-  mat.votos +=1;
-  return mat;
-}
-
-module.exports = {getAll, getById, crear, actualizar, eliminar, votar};
+exports.votar = (id, callback) => {
+    db.run ('UPDATE materias SET votos = votos + 1 WHERE id = ?', [id], function(err){
+        if (err) return callback(err);
+        callback(null);
+    });
+};
