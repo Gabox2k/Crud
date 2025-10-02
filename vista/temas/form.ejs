@@ -1,0 +1,21 @@
+<%- include('../partials/header') %>
+
+<form method="POST" action="<%= tema ? '/temas/editar/' + tema.id : '/materias/' + materiaId + '/temas/nuevo' %>">
+  <input type="hidden" name="materiaId" value="<%= materiaId %>">
+
+  <div class="mb-3">
+    <label for="titulo" class="form-label">Titulo</label>
+    <input type="text" class="form-control" id="titulo" name="titulo" value="<%= tema ? tema.titulo : '' %>" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="descripcion" class="form-label">Descripción</label>
+    <textarea class="form-control" id="descripcion" name="descripcion"><%= tema ? tema.descripcion : '' %></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="/materias/<%= materiaId %>/temas" class="btn btn-secondary">Cancelar</a>
+</form>
+
+
+<%- include('../partials/footer') %>

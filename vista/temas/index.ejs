@@ -1,0 +1,32 @@
+<%- include('../partials/header') %>
+
+<h1>Temas de la materia <%= materiaId %></h1>
+
+<a href="/materias/<%= materiaId %>/temas/crear" class="btn btn-primary">Nuevo Tema</a>
+<a href="/materias" class="btn btn-secondary">Volver a Materias</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Título</th>
+      <th>Descripción</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% temas.forEach(t => { %>
+      <tr>
+        <td><%= t.id %></td>
+        <td><%= t.titulo %></td>
+        <td><%= t.descripcion %></td>
+        <td>
+          <a href="/temas/editar/<%= t.id %>?materiaId=<%= materiaId %>" class="btn btn-warning btn-sm">Editar</a>
+          <a href="/temas/eliminar/<%= t.id %>?materiaId=<%= materiaId %>" class="btn btn-danger btn-sm">Eliminar</a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('../partials/footer') %>

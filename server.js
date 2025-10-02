@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const materiasRoutes = require('./rutas/materiaRutas');
+const temaRutas = require('./rutas/temaRutas');
 
 const app = express();
 const PORT = 3000;
@@ -14,6 +15,7 @@ app.set('view engine' , 'ejs');
 app.set ('views' , path.join(__dirname,'vista'));
 
 app.use('/materias' , materiasRoutes);
+app.use('/', temaRutas);
 app.get('/',(req, res) => res.redirect('/materias')); 
 app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
 
