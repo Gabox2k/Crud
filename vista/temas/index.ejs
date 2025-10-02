@@ -10,7 +10,7 @@
     <tr>
       <th>ID</th>
       <th>Título</th>
-      <th>Descripción</th>
+      <th>Votos</th>
       <th>Acciones</th>
     </tr>
   </thead>
@@ -19,10 +19,11 @@
       <tr>
         <td><%= t.id %></td>
         <td><%= t.titulo %></td>
-        <td><%= t.descripcion %></td>
+        <td><%= t.votos %></td>
         <td>
           <a href="/temas/editar/<%= t.id %>?materiaId=<%= materiaId %>" class="btn btn-warning btn-sm">Editar</a>
           <a href="/temas/eliminar/<%= t.id %>?materiaId=<%= materiaId %>" class="btn btn-danger btn-sm">Eliminar</a>
+          <a href="/temas/votar/<%= t.id %>?materiaId=<%= materiaId %>" class="btn btn-success btn-sm">Votar</a>
         </td>
       </tr>
     <% }) %>

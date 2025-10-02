@@ -14,9 +14,8 @@ exports.formCrear = (req, res) => {
 }
 
 exports.crear = (req,res) => {
-    const {titulo, descripcion} = req.body;
-    const materiaId = req.params.materiaId;
-    Tema.crear(titulo, descripcion, materiaId, (err) =>{
+    const {titulo, materiaId} = req.body;
+    Tema.crear(titulo,materiaId, (err) =>{
         if (err) return res.status(500).send("No se pudo crear el tema");
         res.redirect(`/materias/${materiaId}/temas`);
     });
@@ -33,7 +32,7 @@ exports.formEditar = (req, res) => {
 
 exports.actualizar= (req,res) => {
     const id = req.params.id;
-    const {titulo, descripcion, materiaId} = req.body;
+    const {titulo, materiaId} = req.body;
     Tema.actualizar(id, titulo, descripcion, (err)=>{
         if (err) return res.status(500).send("No se pudo actualiza");
         res.redirect(`/materias/${materiaId}/temas`);
@@ -42,9 +41,18 @@ exports.actualizar= (req,res) => {
 
 exports.eliminar = (req, res) =>{
     const id = req.params.id;
-    const  materiaId = req.params.materiaId;
+    const  materiaId = req.query.materiaId;
     Tema.eliminar(id,(err) =>{
         if (err) return res.status(500).send("No se pudo eliminar");
+        res.redirect(`/materias/${materiaId}/temas`);
+    });
+}
+
+exports.votar = (req, res) => {
+    const id = req.params.id;
+    const materiaId = req.query.materiaId;
+    Tema.votar(id,(err)=>{
+        if (err) return res.status(500).send("No se pudo votar");
         res.redirect(`/materias/${materiaId}/temas`);
     });
 }

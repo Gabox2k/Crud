@@ -16,4 +16,6 @@ router.post('/temas/editar/:id', temaControles.actualizar);
 
 router.get('/temas/eliminar/:id', temaControles.eliminar);
 
+router.get('/temas/votar/:id', temaControles.votar);
+
 module.exports = router;

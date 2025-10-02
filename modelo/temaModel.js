@@ -4,13 +4,13 @@ const db = new sqlite3.Database('./materias.db');
 db.run(`CREATE TABLE IF NOT EXISTS temas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     titulo TEXT NOT NULL,
-    descripcion TEXT,
+    votos INTEGER DEFAULT 0,
     materia_id INTEGER,
     FOREIGN KEY (materia_id) REFERENCES materias(id)
 )`);
 
 exports.getAllByMateria = (materiaId, callback) => {
-    db.all('SELECT * FROM temas WHERE materia_id = ? ', [materiaId], (err, rows) =>{
+    db.all('SELECT * FROM temas WHERE materia_id = ? ORDER BY votos DESC', [materiaId], (err, rows) =>{
         if (err) return callback (err);
         callback(null,rows);
     })
@@ -23,17 +23,17 @@ exports.getById = (id, callback) =>{
     })
 }
 
-exports.crear = (titulo, descripcion, materiaId, callback) => {
-    db.run('INSERT INTO temas (titulo, descripcion, materia_id) VALUES (?, ?, ?)', [titulo, descripcion, materiaId],
+exports.crear = (titulo, materiaId, callback) => {
+    db.run('INSERT INTO temas (titulo, votos, materia_id) VALUES (?, 0, ?)', [titulo, materiaId],
         function (err) {
             if (err) return callback (err);
-            callback(null, {id: this.lastID, titulo, descripcion, materia_id: materiaId});
+            callback(null, {id: this.lastID, titulo, votos:0 , materia_id: materiaId});
         }
     );
 }
 
-exports.actualizar = (id, titulo, descripcion, callback) => {
-    db.run('UPDATE temas SET titulo = ?, descripcion = ? WHERE id = ?', [titulo, descripcion, id],
+exports.actualizar = (id, titulo, callback) => {
+    db.run('UPDATE temas SET titulo = ? WHERE id = ?', [titulo, id],
         function (err) {
             if (err) return callback (err);
             callback(null);
@@ -46,4 +46,14 @@ exports.eliminar = (id, callback) => {
         if (err) return callback (err);
         callback(null);
     });
+}
+
+exports.votar =(id, callback) => {
+    db.run('UPDATE temas SET votos = votos + 1 WHERE id = ?', [id],
+        function(err) {
+            if (err) return callback(err);
+            callback(null);
+        }
+    );
+
 }
