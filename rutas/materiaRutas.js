@@ -30,5 +30,6 @@ router.get('/eliminar/:id', materiaControles.eliminar);
 
 
 router.get('/votar/:id', materiaControles.votar);
+router.get('/desvotar/:id', materiaControles.desvotar);
 
 module.exports = router;

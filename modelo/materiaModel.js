@@ -48,3 +48,10 @@ exports.votar = (id, callback) => {
         callback(null);
     });
 };
+
+exports.desvotar = (id, callback) => {
+    db.run('UPDATE materias SET votos = votos - 1 WHERE id = ?' , [id], function(err){
+        if (err) return callback(err);
+        callback(null);
+    })
+}

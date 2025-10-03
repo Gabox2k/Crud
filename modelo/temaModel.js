@@ -57,3 +57,12 @@ exports.votar =(id, callback) => {
     );
 
 }
+
+exports.desvotar = (id, callback) =>{
+    db.run('UPDATE temas SET votos = votos -1 WHERE id = ? AND votos > 0', [id], 
+        function (err) {
+            if (err) return callback(err);
+            callback(null);
+        }
+    )
+}

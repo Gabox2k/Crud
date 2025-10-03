@@ -56,3 +56,12 @@ exports.votar = (req, res) => {
         res.redirect(`/materias/${materiaId}/temas`);
     });
 }
+
+exports.desvotar = (req, res) => {
+    const id = req.params.id;
+    const materiaId = req.query.materiaId;
+    Tema.desvotar(id, (err) => {
+        if (err) return res.status(500).send("No se pudo desvotar");
+        res.redirect(`/materias/${materiaId}/temas`);
+    });
+}

@@ -39,7 +39,16 @@ exports.eliminar = (req, res) => {
 exports.votar = (req, res) =>{
     const id = req.params.id;
     model.votar(id, (err) => {
-        if (err) return res.status(500).send("No se pudo crear");
+        if (err) return res.status(500).send("No se pudo votar");
         res.redirect('/materias');
     })
+}
+
+exports.desvotar = (req, res) => {
+    const id = req.params.id;
+    model.desvotar(id, (err) =>{
+         if (err) return res.status(500).send("No se pudo votar");
+        res.redirect('/materias');
+    })
+
 }

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const temaControles = require('../controles/temaControles');
+const { route } = require('./materiaRutas');
 
 router.get('/materias/:materiaId/temas', temaControles.listarTemas);
 
@@ -17,5 +18,6 @@ router.post('/temas/editar/:id', temaControles.actualizar);
 router.get('/temas/eliminar/:id', temaControles.eliminar);
 
 router.get('/temas/votar/:id', temaControles.votar);
+router.get('/temas/desvotar/:id', temaControles.desvotar);
 
 module.exports = router;
