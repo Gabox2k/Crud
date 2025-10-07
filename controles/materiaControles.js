@@ -1,4 +1,5 @@
 const model = require('../modelo/materiaModel');
+const Tema = require('../modelo/temaModel');
 
 exports.listar = (req, res) => {
    model.getAll((err, materias) =>{
@@ -13,9 +14,20 @@ exports.getById = (id, callback) => {
 
 exports.crear = (req, res) => {
     const { nombre } = req.body;
-    model.crear(nombre, (err, nuevaMateria) => {
+    model.crear(nombre, (err, materiaId) => {
         if (err) return res.status(500).send("No se pudo crear");
-        res.redirect('/materias');
+
+        const  predeterminado = [{titulo: "Principiante", link:"https://youtu.be/nKPbfIU442g?si=4RAE8Zb9NXksvooX"},
+                                 {titulo: "Intermedio", link:"https://youtu.be/1-qjMS6C960?si=KmYhou-oHA5uXVio"},
+                                 {titulo:"Avanzado", link:"https://youtu.be/JOAqpdM36wI?si=ZFUAt5XTGfZf2CGU"}
+        ];
+
+        predeterminado.forEach((t) => {
+            Tema.crear(t.titulo, t.link, materiaId, (err) =>{
+                if (err) console.error("no se puede crear el tema", err);
+            });
+        });
+         res.redirect("/");
     });
 } 
 

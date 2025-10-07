@@ -4,6 +4,7 @@ const db = new sqlite3.Database('./materias.db');
 db.run(`CREATE TABLE IF NOT EXISTS temas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     titulo TEXT NOT NULL,
+    link TEXT,
     votos INTEGER DEFAULT 0,
     materia_id INTEGER,
     FOREIGN KEY (materia_id) REFERENCES materias(id)
@@ -23,8 +24,8 @@ exports.getById = (id, callback) =>{
     })
 }
 
-exports.crear = (titulo, materiaId, callback) => {
-    db.run('INSERT INTO temas (titulo, votos, materia_id) VALUES (?, 0, ?)', [titulo, materiaId],
+exports.crear = (titulo, link, materiaId, callback) => {
+    db.run('INSERT INTO temas (titulo, link, votos, materia_id) VALUES (?, ?, 0, ?)', [titulo, link, materiaId],
         function (err) {
             if (err) return callback (err);
             callback(null, {id: this.lastID, titulo, votos:0 , materia_id: materiaId});

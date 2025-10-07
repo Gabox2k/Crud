@@ -7,6 +7,7 @@ db.run(`CREATE TABLE IF NOT EXISTS materias (
     votos INTEGER DEFAULT 0
 )`);
 
+//Obtener todas las materias
 exports.getAll = (callback) => {
    db.all('SELECT * FROM materias ORDER BY votos DESC', [], (err, rows) =>{
     if (err) return callback(err);
@@ -14,6 +15,7 @@ exports.getAll = (callback) => {
    }); 
 }
 
+//Obtener por su id
 exports.getById = (id, callback) => {
     db.get('SELECT * FROM materias WHERE id = ?', [id], (err, row) =>{
        if (err) return callback(err);
@@ -21,13 +23,15 @@ exports.getById = (id, callback) => {
     });
 };
 
+//Crea una nueva materia
 exports.crear = (nombre, callback) => {
     db.run('INSERT INTO materias(nombre) VALUES(?)', [nombre], function(err){
         if (err) return callback(err);
-        callback(null, {id: this.lastID, nombre, votos : 0});
+        callback(null, this.lastID);
     });
 };
 
+//Actualiza la materia
 exports.actualizar = (id, nombre , callback) =>{
     db.run('UPDATE materias SET nombre = ? WHERE id = ?', [nombre, id], function(err){
         if (err) return callback(err);
@@ -35,6 +39,7 @@ exports.actualizar = (id, nombre , callback) =>{
     });
 };
 
+//Elimina la materia
 exports.eliminar = (id, callback) => {
     db.run ('DELETE FROM materias WHERE id = ?', [id], function(err){
         if (err) return callback(err);
@@ -42,6 +47,7 @@ exports.eliminar = (id, callback) => {
     });
 };
 
+//Vota la materia
 exports.votar = (id, callback) => {
     db.run ('UPDATE materias SET votos = votos + 1 WHERE id = ?', [id], function(err){
         if (err) return callback(err);
@@ -49,6 +55,7 @@ exports.votar = (id, callback) => {
     });
 };
 
+//Desvota la materia
 exports.desvotar = (id, callback) => {
     db.run('UPDATE materias SET votos = votos - 1 WHERE id = ?' , [id], function(err){
         if (err) return callback(err);

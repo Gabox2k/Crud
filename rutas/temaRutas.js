@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const temaControles = require('../controles/temaControles');
-const { route } = require('./materiaRutas');
+
 
 router.get('/materias/:materiaId/temas', temaControles.listarTemas);
 

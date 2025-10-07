@@ -33,7 +33,7 @@ exports.formEditar = (req, res) => {
 exports.actualizar= (req,res) => {
     const id = req.params.id;
     const {titulo, materiaId} = req.body;
-    Tema.actualizar(id, titulo, descripcion, (err)=>{
+    Tema.actualizar(id, titulo, (err)=>{
         if (err) return res.status(500).send("No se pudo actualiza");
         res.redirect(`/materias/${materiaId}/temas`);
     });
