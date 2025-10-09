@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./materias.db');
 
+//Se crea la base de datos
 db.run(`CREATE TABLE IF NOT EXISTS temas (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     titulo TEXT NOT NULL,
@@ -10,6 +11,7 @@ db.run(`CREATE TABLE IF NOT EXISTS temas (
     FOREIGN KEY (materia_id) REFERENCES materias(id)
 )`);
 
+//Obtine todas las materias
 exports.getAllByMateria = (materiaId, callback) => {
     db.all('SELECT * FROM temas WHERE materia_id = ? ORDER BY votos DESC', [materiaId], (err, rows) =>{
         if (err) return callback (err);
@@ -17,6 +19,7 @@ exports.getAllByMateria = (materiaId, callback) => {
     })
 }
 
+//Obtiene por su id
 exports.getById = (id, callback) =>{
     db.get('SELECT * FROM temas WHERE id = ? ', [id], (err,row) =>{
         if (err) return callback (err);
@@ -24,6 +27,7 @@ exports.getById = (id, callback) =>{
     })
 }
 
+//Se crea nuevos temas
 exports.crear = (titulo, link, materiaId, callback) => {
     db.run('INSERT INTO temas (titulo, link, votos, materia_id) VALUES (?, ?, 0, ?)', [titulo, link, materiaId],
         function (err) {
@@ -33,6 +37,7 @@ exports.crear = (titulo, link, materiaId, callback) => {
     );
 }
 
+//Actualiza los temas
 exports.actualizar = (id, titulo, callback) => {
     db.run('UPDATE temas SET titulo = ? WHERE id = ?', [titulo, id],
         function (err) {
@@ -42,6 +47,7 @@ exports.actualizar = (id, titulo, callback) => {
     );
 }
 
+//Elimina los temas
 exports.eliminar = (id, callback) => {
     db.run('DELETE FROM temas WHERE id = ?', [id], function(err){
         if (err) return callback (err);
@@ -49,6 +55,7 @@ exports.eliminar = (id, callback) => {
     });
 }
 
+//Vota los temas
 exports.votar =(id, callback) => {
     db.run('UPDATE temas SET votos = votos + 1 WHERE id = ?', [id],
         function(err) {
@@ -59,6 +66,7 @@ exports.votar =(id, callback) => {
 
 }
 
+//Desvota los temas
 exports.desvotar = (id, callback) =>{
     db.run('UPDATE temas SET votos = votos -1 WHERE id = ? AND votos > 0', [id], 
         function (err) {

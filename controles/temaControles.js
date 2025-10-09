@@ -1,5 +1,6 @@
 const Tema = require('../modelo/temaModel');
 
+//Lista para los temas por materia
 exports.listarTemas = (req, res) =>{
     const materiaId = req.params.materiaId;
     Tema.getAllByMateria(materiaId, (err,temas) =>{
@@ -8,11 +9,13 @@ exports.listarTemas = (req, res) =>{
     });
 }
 
+//Crea nuevos temas
 exports.formCrear = (req, res) => {
     const materiaId = req.params.materiaId;
     res.render('temas/crear', {materiaId});
 }
 
+//Se crea nuevos temas
 exports.crear = (req,res) => {
     const {titulo, materiaId} = req.body;
     Tema.crear(titulo,materiaId, (err) =>{
@@ -21,6 +24,7 @@ exports.crear = (req,res) => {
     });
 }
 
+//Edita los temas
 exports.formEditar = (req, res) => {
     const id = req.params.id;
     const materiaId = req.query.materiaId;
@@ -30,6 +34,7 @@ exports.formEditar = (req, res) => {
     });
 }
 
+//Actualiza los temas
 exports.actualizar= (req,res) => {
     const id = req.params.id;
     const {titulo, materiaId} = req.body;
@@ -39,6 +44,7 @@ exports.actualizar= (req,res) => {
     });
 }
 
+//elimina los temas
 exports.eliminar = (req, res) =>{
     const id = req.params.id;
     const  materiaId = req.query.materiaId;
@@ -48,6 +54,7 @@ exports.eliminar = (req, res) =>{
     });
 }
 
+//Vota los temas
 exports.votar = (req, res) => {
     const id = req.params.id;
     const materiaId = req.query.materiaId;
@@ -57,6 +64,7 @@ exports.votar = (req, res) => {
     });
 }
 
+//desvota los temas
 exports.desvotar = (req, res) => {
     const id = req.params.id;
     const materiaId = req.query.materiaId;

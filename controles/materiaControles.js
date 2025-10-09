@@ -1,6 +1,7 @@
 const model = require('../modelo/materiaModel');
 const Tema = require('../modelo/temaModel');
 
+//Obtiene todas las materias
 exports.listar = (req, res) => {
    model.getAll((err, materias) =>{
         if (err) return res.status(500).send("Erro no se pudo obtener las materias");
@@ -8,10 +9,12 @@ exports.listar = (req, res) => {
    });
 };
 
+//Se obtiene por la id  
 exports.getById = (id, callback) => {
     model.getById(id, callback)
 }
 
+//Crea nuevas materias con temas predeterminados
 exports.crear = (req, res) => {
     const { nombre } = req.body;
     model.crear(nombre, (err, materiaId) => {
@@ -21,7 +24,7 @@ exports.crear = (req, res) => {
                                  {titulo: "Intermedio", link:"https://youtu.be/1-qjMS6C960?si=KmYhou-oHA5uXVio"},
                                  {titulo:"Avanzado", link:"https://youtu.be/JOAqpdM36wI?si=ZFUAt5XTGfZf2CGU"}
         ];
-
+        
         predeterminado.forEach((t) => {
             Tema.crear(t.titulo, t.link, materiaId, (err) =>{
                 if (err) console.error("no se puede crear el tema", err);
@@ -31,6 +34,7 @@ exports.crear = (req, res) => {
     });
 } 
 
+//Edita las materias
 exports.editar = (req, res) =>{
     const { nombre } = req.body;
     const id = req.params.id;
@@ -40,6 +44,7 @@ exports.editar = (req, res) =>{
     })
 }
 
+//Elimina las materias
 exports.eliminar = (req, res) => {
     const id = req.params.id;
     model.eliminar(id, (err) => {
@@ -48,6 +53,7 @@ exports.eliminar = (req, res) => {
     })
 }
 
+//votas las materias
 exports.votar = (req, res) =>{
     const id = req.params.id;
     model.votar(id, (err) => {
@@ -56,6 +62,7 @@ exports.votar = (req, res) =>{
     })
 }
 
+//Desvota las materias
 exports.desvotar = (req, res) => {
     const id = req.params.id;
     model.desvotar(id, (err) =>{
