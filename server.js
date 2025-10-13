@@ -10,7 +10,6 @@ app.use(express.json());
 
 //Lee los datos del formulario
 app.use(express.urlencoded({extended:true}));
-app.use(express.static(path.join(__dirname,'public')));
 
 //Donde se encuentran las vistas
 app.set('view engine' , 'ejs');
